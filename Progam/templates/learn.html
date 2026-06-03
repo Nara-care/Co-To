@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO-TO Learn - Economical Token</title>
+    <meta name="description" content="Penjelasan visual cara CO-TO mengubah dokumen menjadi Markdown yang lebih bersih untuk konteks AI.">
+
+    <script>
+        (function () {
+            var savedTheme = localStorage.getItem('coto-theme');
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var theme = savedTheme === 'dark' || savedTheme === 'light'
+                ? savedTheme
+                : (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="learn-page">
+    <div class="learn-shell">
+        <header class="learn-navbar">
+            <a class="learn-brand route-transition-link" href="/" data-route-target="/" aria-label="Back to CO-TO converter">
+                <img id="brandLogo" class="coto-logo" src="{{ url_for('static', filename='Logo mode gelap.PNG') }}" alt="CO-TO Logo">
+                <span data-i18n-id="CO-TO Learn" data-i18n-en="CO-TO Learn">CO-TO Learn</span>
+            </a>
+
+            <div class="learn-nav-actions">
+                <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon moon-icon"></i>
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                </button>
+                <a class="learn-back-link route-transition-link" href="/" data-route-target="/">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span data-i18n-id="Kembali ke Converter" data-i18n-en="Back to Converter">Kembali ke Converter</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="learn-main">
+            <section class="learn-hero">
+                <div class="learn-hero-copy">
+                    <p class="learn-kicker" data-i18n-id="Penjelasan Visual" data-i18n-en="Visual Explanation">Penjelasan Visual</p>
+                    <h1 data-i18n-id="Cara Kerja CO-TO" data-i18n-en="How CO-TO Works">Cara Kerja CO-TO</h1>
+                    <p data-i18n-id="Prompt lebih kecil. Konteks lebih bersih." data-i18n-en="Smaller Prompt. Cleaner Context.">Prompt lebih kecil. Konteks lebih bersih.</p>
+                </div>
+
+                <div class="learn-hero-visual" aria-label="Compact conversion preview">
+                    <div class="mini-flow-node" data-i18n-id="Dokumen Berantakan" data-i18n-en="Messy Document">Dokumen Berantakan</div>
+                    <div class="mini-flow-arrow" aria-hidden="true">-&gt;</div>
+                    <div class="mini-flow-node is-active" data-i18n-id="Markdown Ringkas" data-i18n-en="Compact Markdown">Markdown Ringkas</div>
+                    <div class="mini-flow-arrow" aria-hidden="true">-&gt;</div>
+                    <div class="mini-flow-node" data-i18n-id="Siap untuk AI" data-i18n-en="LLM-ready">Siap untuk AI</div>
+                </div>
+            </section>
+
+            <section class="pipeline-card" aria-label="CO-TO conversion pipeline">
+                <div class="pipeline-visual">
+                    <div class="pipeline-node">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>DOCX / PDF / PPTX / XLSX</span>
+                    </div>
+                    <div class="pipeline-arrow" aria-hidden="true">-&gt;</div>
+                    <div class="pipeline-node is-core">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span data-i18n-id="Parser CO-TO" data-i18n-en="CO-TO Parser">Parser CO-TO</span>
+                    </div>
+                    <div class="pipeline-arrow" aria-hidden="true">-&gt;</div>
+                    <div class="pipeline-node">
+                        <i class="fa-brands fa-markdown"></i>
+                        <span data-i18n-id="Markdown Bersih" data-i18n-en="Clean Markdown">Markdown Bersih</span>
+                    </div>
+                    <div class="pipeline-arrow" aria-hidden="true">-&gt;</div>
+                    <div class="pipeline-node">
+                        <i class="fa-solid fa-brain"></i>
+                        <span data-i18n-id="Prompt Siap AI" data-i18n-en="LLM-ready Prompt">Prompt Siap AI</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="learn-grid" aria-label="Core benefits">
+                <article class="learn-card">
+                    <i class="fa-solid fa-filter-circle-xmark"></i>
+                    <h2 data-i18n-id="Noise Sintaks Lebih Rendah" data-i18n-en="Less Syntax Noise">Noise Sintaks Lebih Rendah</h2>
+                    <p data-i18n-id="CO-TO mengurangi sisa layout, wrapper, dan format berulang yang biasanya memakan ruang konteks." data-i18n-en="CO-TO reduces layout residue, wrappers, and repeated formatting that usually burns context space.">CO-TO mengurangi sisa layout, wrapper, dan format berulang yang biasanya memakan ruang konteks.</p>
+                </article>
+
+                <article class="learn-card">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <h2 data-i18n-id="Struktur Tetap Terbaca" data-i18n-en="Readable Structure">Struktur Tetap Terbaca</h2>
+                    <p data-i18n-id="Heading, list, tabel, slide, dan sheet dibangun ulang menjadi struktur Markdown yang ringkas." data-i18n-en="Headings, lists, tables, slides, and sheets are rebuilt into compact Markdown structure.">Heading, list, tabel, slide, dan sheet dibangun ulang menjadi struktur Markdown yang ringkas.</p>
+                </article>
+
+                <article class="learn-card">
+                    <i class="fa-solid fa-leaf"></i>
+                    <h2>Ultra-Pure Mode</h2>
+                    <p data-i18n-id="Mode opsional untuk melepas simbol dekoratif sambil menjaga tabel dan teks flowchart tetap aman." data-i18n-en="Optional cleanup removes decorative symbols while preserving tables and flowchart-friendly text.">Mode opsional untuk melepas simbol dekoratif sambil menjaga tabel dan teks flowchart tetap aman.</p>
+                </article>
+            </section>
+
+            <section class="format-battle" aria-label="Format comparison">
+                <article class="format-card">
+                    <h2>JSON</h2>
+                    <p data-i18n-id="Terstruktur, tapi sering terlalu verbose untuk membaca dokumen natural." data-i18n-en="Structured, but often too verbose for natural document reading.">Terstruktur, tapi sering terlalu verbose untuk membaca dokumen natural.</p>
+                    <div class="token-bar" aria-label="High token usage"><span style="width: 82%"></span></div>
+                </article>
+
+                <article class="format-card">
+                    <h2>HTML</h2>
+                    <p data-i18n-id="Kaya layout, tapi berat karena tag, script, navigasi, dan metadata." data-i18n-en="Rich layout, but heavy with tags, scripts, navigation, and metadata.">Kaya layout, tapi berat karena tag, script, navigasi, dan metadata.</p>
+                    <div class="token-bar" aria-label="Very high token usage"><span style="width: 96%"></span></div>
+                </article>
+
+                <article class="format-card is-winner">
+                    <h2>Markdown</h2>
+                    <p data-i18n-id="Lebih mudah dibaca, lebih ringkas, dan lebih mudah diikuti oleh model." data-i18n-en="Readable, compact, and easier for models to follow.">Lebih mudah dibaca, lebih ringkas, dan lebih mudah diikuti oleh model.</p>
+                    <div class="token-bar" aria-label="Lower token usage"><span style="width: 42%"></span></div>
+                </article>
+            </section>
+
+            <section class="faq-panel" aria-label="CO-TO FAQ">
+                <div class="faq-header">
+                    <p class="learn-kicker" data-i18n-id="FAQ" data-i18n-en="FAQ">FAQ</p>
+                    <h2 data-i18n-id="Pertanyaan yang sering muncul" data-i18n-en="Frequently Asked Questions">Pertanyaan yang sering muncul</h2>
+                    <p data-i18n-id="Jawaban singkat tentang Markdown, token, privasi, dan mode pemrosesan." data-i18n-en="Short answers about Markdown, tokens, privacy, and processing modes.">Jawaban singkat tentang Markdown, token, privasi, dan mode pemrosesan.</p>
+                </div>
+
+                <div class="faq-list">
+                    <details open>
+                        <summary data-i18n-id="Kenapa CO-TO memakai Markdown?" data-i18n-en="Why does CO-TO use Markdown?">Kenapa CO-TO memakai Markdown?</summary>
+                        <p data-i18n-id="Markdown menjaga struktur tetap jelas tanpa membawa markup berat yang tidak perlu." data-i18n-en="Markdown keeps structure visible without carrying unnecessary heavy markup.">Markdown menjaga struktur tetap jelas tanpa membawa markup berat yang tidak perlu.</p>
+                    </details>
+                    <details>
+                        <summary data-i18n-id="Apakah Markdown selalu lebih hemat token?" data-i18n-en="Is Markdown always more token-efficient?">Apakah Markdown selalu lebih hemat token?</summary>
+                        <p data-i18n-id="Biasanya iya untuk dokumen berformat berat, terutama dibanding HTML mentah atau metadata berulang." data-i18n-en="Usually yes for heavily formatted documents, especially compared with raw HTML or repeated metadata.">Biasanya iya untuk dokumen berformat berat, terutama dibanding HTML mentah atau metadata berulang.</p>
+                    </details>
+                    <details>
+                        <summary data-i18n-id="Apakah estimasi token di CO-TO akurat?" data-i18n-en="Is CO-TO's token estimate accurate?">Apakah estimasi token di CO-TO akurat?</summary>
+                        <p data-i18n-id="Estimasi bersifat pendekatan cepat, cukup untuk membandingkan versi standar dan Ultra-Pure." data-i18n-en="The estimate is a quick approximation, useful for comparing standard and Ultra-Pure output.">Estimasi bersifat pendekatan cepat, cukup untuk membandingkan versi standar dan Ultra-Pure.</p>
+                    </details>
+                    <details>
+                        <summary data-i18n-id="Apakah file saya dikirim ke internet?" data-i18n-en="Are my files sent to the internet?">Apakah file saya dikirim ke internet?</summary>
+                        <p data-i18n-id="Saat dijalankan lokal, konversi berlangsung di perangkat sendiri melalui Flask lokal." data-i18n-en="When run locally, conversion happens on your own device through local Flask.">Saat dijalankan lokal, konversi berlangsung di perangkat sendiri melalui Flask lokal.</p>
+                    </details>
+                    <details>
+                        <summary data-i18n-id="Kapan Ultra-Pure Mode dipakai?" data-i18n-en="When should I use Ultra-Pure Mode?">Kapan Ultra-Pure Mode dipakai?</summary>
+                        <p data-i18n-id="Pakai saat targetnya prompt paling ringkas. Matikan jika simbol Markdown standar masih dibutuhkan." data-i18n-en="Use it when you want the shortest prompt. Turn it off when standard Markdown symbols still matter.">Pakai saat targetnya prompt paling ringkas. Matikan jika simbol Markdown standar masih dibutuhkan.</p>
+                    </details>
+                    <details>
+                        <summary data-i18n-id="Format file apa saja yang didukung?" data-i18n-en="Which file formats are supported?">Format file apa saja yang didukung?</summary>
+                        <p data-i18n-id="CO-TO mendukung TXT, MD, CSV, XLSX, DOCX, PDF, PPTX, HTML, dan beberapa source code." data-i18n-en="CO-TO supports TXT, MD, CSV, XLSX, DOCX, PDF, PPTX, HTML, and several source code formats.">CO-TO mendukung TXT, MD, CSV, XLSX, DOCX, PDF, PPTX, HTML, dan beberapa source code.</p>
+                    </details>
+                    <details>
+                        <summary data-i18n-id="Apa bedanya Download Selected dan Download All?" data-i18n-en="What is the difference between Download Selected and Download All?">Apa bedanya Download Selected dan Download All?</summary>
+                        <p data-i18n-id="Download Selected mengunduh file aktif saja. Download All menggabungkan semua hasil sukses dalam satu file Markdown." data-i18n-en="Download Selected saves only the active file. Download All combines all successful outputs into one Markdown file.">Download Selected mengunduh file aktif saja. Download All menggabungkan semua hasil sukses dalam satu file Markdown.</p>
+                    </details>
+                    <details>
+                        <summary data-i18n-id="Apakah tabel dari Word/PPTX tetap terbaca?" data-i18n-en="Are Word/PPTX tables still readable?">Apakah tabel dari Word/PPTX tetap terbaca?</summary>
+                        <p data-i18n-id="Tabel native dibangun ulang sebagai tabel Markdown agar struktur kolom tetap terlihat." data-i18n-en="Native tables are rebuilt as Markdown tables so column structure remains visible.">Tabel native dibangun ulang sebagai tabel Markdown agar struktur kolom tetap terlihat.</p>
+                    </details>
+                    <details>
+                        <summary data-i18n-id="Kenapa hasil dari gambar belum bisa dibaca?" data-i18n-en="Why can't image-only files be read yet?">Kenapa hasil dari gambar belum bisa dibaca?</summary>
+                        <p data-i18n-id="Gambar membutuhkan OCR. Fitur itu sengaja dipisahkan agar converter teks tetap ringan dan stabil." data-i18n-en="Images require OCR. That feature is separated so the text converter stays lightweight and stable.">Gambar membutuhkan OCR. Fitur itu sengaja dipisahkan agar converter teks tetap ringan dan stabil.</p>
+                    </details>
+                </div>
+            </section>
+        </main>
+
+        <footer class="learn-footer">
+            <div class="language-switcher" aria-label="Language switcher">
+                <button type="button" class="language-toggle" data-lang-target="id">ID</button>
+                <button type="button" class="language-toggle" data-lang-target="en">EN</button>
+            </div>
+                <p data-i18n-id="© 2026 Vera Creation - Dibuat dengan cinta." data-i18n-en="© 2026 Vera Creation - Built with care.">© 2026 Vera Creation - Dibuat dengan cinta.</p>
+        </footer>
+    </div>
+
+    <div id="pageTransitionOverlay" class="page-transition-overlay" aria-hidden="true"></div>
+    <script src="{{ url_for('static', filename='i18n.js') }}"></script>
+    <script src="{{ url_for('static', filename='learn.js') }}"></script>
+</body>
+</html>

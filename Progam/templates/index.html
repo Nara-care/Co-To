@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO-TO (eco-Token) - File-to-Markdown Compressor for AI</title>
+    <meta name="description" content="Kompres file PDF, DOCX, PPTX, dan lainnya ke format Markdown hemat token untuk AI seperti GPT, Gemini, dan Claude.">
+    
+    <!-- Google Fonts: Outfit (UI) & Fira Code (Code/Markdown Output) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- ==================== ZONA 1: HERO AREA & HEADER ==================== -->
+        <header class="app-header">
+            <div class="logo-container">
+                <img id="brandLogo" src="{{ url_for('static', filename='Logo mode gelap.PNG') }}" alt="Economical Token Logo" class="coto-logo">
+            </div>
+            
+            <div class="hero-text">
+                <h1 class="app-title">Economical Token</h1>
+                <p class="app-tagline" data-i18n-id="eco-Token File-to-Markdown Compressor" data-i18n-en="eco-Token File-to-Markdown Compressor">eco-Token File-to-Markdown Compressor</p>
+                <p class="app-description" data-i18n-id="Konversi berbagai format dokumen menjadi Markdown bersih untuk mengurangi beban token konteks saat dipakai di model AI seperti GPT, Gemini, atau Claude." data-i18n-en="Convert document files into clean Markdown to reduce context-token overhead for AI models like GPT, Gemini, or Claude.">Konversi berbagai format dokumen menjadi Markdown bersih untuk mengurangi beban token konteks saat dipakai di model AI seperti GPT, Gemini, atau Claude.</p>
+            </div>
+            
+            <!-- Theme Toggle -->
+            <div class="theme-toggle-container">
+                <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon moon-icon"></i>
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- ==================== ZONA 2: CORE INTERACTION ==================== -->
+        <main class="main-content">
+            
+            <!-- Upload Dropzone Section -->
+            <section class="interaction-card">
+
+                <!-- Dropzone -->
+                <div class="dropzone" id="dropzone">
+                    <!-- multiple: bisa pilih banyak file sekaligus -->
+                    <input type="file" id="fileInput" class="file-input" multiple
+                           accept=".txt,.log,.csv,.md,.docx,.pdf,.pptx,.xlsx,.html,.htm,*">
+                    
+                    <div class="dropzone-content" id="dropzoneContent">
+                        <div class="dropzone-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <h3 data-i18n-id="Drag & Drop File Anda di Sini" data-i18n-en="Drag & Drop Your Files Here">Drag &amp; Drop File Anda di Sini</h3>
+                        <p data-i18n-id="Mendukung banyak file sekaligus - atau klik untuk memilih dari folder" data-i18n-en="Supports multiple files at once - or click to browse from your folder">Mendukung banyak file sekaligus - atau klik untuk memilih dari folder</p>
+                        <div class="file-chips-row">
+                            <span class="chip">TXT</span>
+                            <span class="chip">MD</span>
+                            <span class="chip">DOCX</span>
+                            <span class="chip">PDF</span>
+                            <span class="chip">PPTX</span>
+                            <span class="chip">XLSX</span>
+                            <span class="chip">CSV</span>
+                            <span class="chip">HTML</span>
+                            <span class="chip">Code</span>
+                        </div>
+                    </div>
+
+                    <!-- Loader Spinner -->
+                    <div class="loader-container" id="loader">
+                        <div class="spinner"></div>
+                        <p id="loaderText" data-i18n-id="Mengompresi file ke Markdown..." data-i18n-en="Compressing file into Markdown...">Mengompresi file ke Markdown...</p>
+                    </div>
+                </div>
+
+                <!-- Output Panel (hidden until conversion success) -->
+                <div class="output-container" id="outputContainer">
+
+                    <!-- Output Header / Info Bar -->
+                    <div class="output-header">
+                        <div class="output-info">
+                            <i class="fa-solid fa-file-invoice"></i>
+                            <span id="outputFilename">output.md</span>
+                            <span class="token-badge" id="outputTokenCount">~0 token</span>
+                        </div>
+                        <div class="output-actions">
+                            <div class="action-toggle-wrapper" title="Ultra-Pure Text Mode: menyaring simbol Markdown dekoratif untuk hemat token maksimal. Kode dibypass otomatis." data-i18n-title-id="Ultra-Pure Text Mode: menyaring simbol Markdown dekoratif untuk hemat token maksimal. Kode dibypass otomatis." data-i18n-title-en="Ultra-Pure Text Mode: filters decorative Markdown symbols for maximum token saving. Code files are bypassed automatically.">
+                                <span class="action-toggle-label"><i class="fa-solid fa-leaf"></i> Ultra-Pure</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="ultraPureToggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <button id="copyBtn" class="btn btn-secondary" type="button" title="Salin ke Clipboard">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>Copy</span>
+                            </button>
+                            <button id="downloadBtn" class="btn btn-download" type="button" title="Unduh sebagai .md">
+                                <i class="fa-solid fa-download"></i>
+                                <span data-i18n-id="Download Terpilih" data-i18n-en="Download Selected">Download Terpilih</span>
+                            </button>
+                            <button id="downloadAllBtn" class="btn btn-download" type="button" title="Unduh semua file sebagai satu .md">
+                                <i class="fa-solid fa-file-zipper"></i>
+                                <span data-i18n-id="Download Semua" data-i18n-en="Download All">Download Semua</span>
+                            </button>
+                            <button id="addMoreBtn" class="btn btn-outline" type="button" title="Tambah file lagi ke sesi ini">
+                                <i class="fa-solid fa-plus"></i>
+                                <span data-i18n-id="Tambah File" data-i18n-en="Add Files">Tambah File</span>
+                            </button>
+                            <button id="resetBtn" class="btn btn-text" type="button" title="Reset semua">
+                                <i class="fa-solid fa-rotate-left"></i>
+                                <span data-i18n-id="Reset" data-i18n-en="Reset">Reset</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Active Files Manager List (Selective Download Control) -->
+                    <div class="active-files-list" id="activeFilesList"></div>
+
+                    <!-- Code Preview Area -->
+                    <div class="code-preview-wrapper">
+                        <pre><code id="codePreview" class="code-preview"></code></pre>
+                    </div>
+                </div>
+
+            </section>
+            
+        </main>
+
+        <!-- ==================== ZONA 3: KNOWLEDGE BASE ==================== -->
+        <footer class="app-footer">
+            <section class="knowledge-base">
+                <h2 class="section-title" data-i18n-id="Mengapa Menggunakan CO-TO?" data-i18n-en="Why Use CO-TO?">Mengapa Menggunakan CO-TO?</h2>
+                <p class="section-subtitle">
+                    <button id="learnMoreBtn" class="learn-more-link" type="button">
+                        <span data-i18n-id="Lihat cara CO-TO bekerja secara visual" data-i18n-en="See how CO-TO works visually">Lihat cara CO-TO bekerja secara visual</span>
+                        <span aria-hidden="true">&rarr;</span>
+                    </button>
+                </p>
+                
+                <div class="benefits-grid">
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="fa-solid fa-piggy-bank"></i></div>
+                        <h3 data-i18n-id="Efisiensi Token" data-i18n-en="Token Efficiency">Efisiensi Token</h3>
+                        <p data-i18n-id="Dokumen mentah seperti PDF, DOCX, atau PPTX sering membawa formatting tersembunyi. CO-TO menjaga teks inti dalam Markdown agar konteks lebih ringan." data-i18n-en="Raw documents such as PDF, DOCX, or PPTX often carry hidden formatting. CO-TO keeps the core text in Markdown so context stays lighter.">Dokumen mentah seperti PDF, DOCX, atau PPTX sering membawa formatting tersembunyi. CO-TO menjaga teks inti dalam Markdown agar konteks lebih ringan.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="fa-solid fa-table-cells"></i></div>
+                        <h3 data-i18n-id="Struktur Tabel Word" data-i18n-en="Word Table Structure">Struktur Tabel Word</h3>
+                        <p data-i18n-id="Tabel DOCX dibaca dan disusun ulang sebagai tabel Markdown agar struktur tetap terbaca oleh LLM." data-i18n-en="DOCX tables are read and rebuilt as Markdown tables so the structure remains readable for LLMs.">Tabel DOCX dibaca dan disusun ulang sebagai tabel Markdown agar struktur tetap terbaca oleh LLM.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="fa-solid fa-layer-group"></i></div>
+                        <h3 data-i18n-id="Pemrosesan Multi-File" data-i18n-en="Multi-File Processing">Pemrosesan Multi-File</h3>
+                        <p data-i18n-id="Beberapa file bisa diproses dalam satu sesi, dengan unduhan individual maupun gabungan." data-i18n-en="Multiple files can be processed in one session, with both individual and combined downloads available.">Beberapa file bisa diproses dalam satu sesi, dengan unduhan individual maupun gabungan.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3 data-i18n-id="Keamanan Lokal" data-i18n-en="Local-First Safety">Keamanan Lokal</h3>
+                        <p data-i18n-id="Saat dijalankan lokal, proses berlangsung di perangkat sendiri melalui Flask lokal." data-i18n-en="When run locally, conversion happens on your own device through the local Flask app.">Saat dijalankan lokal, proses berlangsung di perangkat sendiri melalui Flask lokal.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="fa-brands fa-html5"></i></div>
+                        <h3 data-i18n-id="Pembersihan Dokumen HTML" data-i18n-en="HTML Cleanup">Pembersihan Dokumen HTML</h3>
+                        <p data-i18n-id="CO-TO mencoba mengambil konten utama dari HTML sambil mengabaikan script, iklan, dan navigasi." data-i18n-en="CO-TO tries to extract the main HTML content while ignoring scripts, ads, and navigation.">CO-TO mencoba mengambil konten utama dari HTML sambil mengabaikan script, iklan, dan navigasi.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="fa-solid fa-file-powerpoint"></i></div>
+                        <h3 data-i18n-id="Ekstraksi PPTX & Excel" data-i18n-en="PPTX & Excel Extraction">Ekstraksi PPTX &amp; Excel</h3>
+                        <p data-i18n-id="CO-TO membaca teks slide PPTX serta mengubah data Excel atau CSV menjadi tabel Markdown." data-i18n-en="CO-TO reads PPTX slide text and converts Excel or CSV data into Markdown tables.">CO-TO membaca teks slide PPTX serta mengubah data Excel atau CSV menjadi tabel Markdown.</p>
+                    </div>
+                    
+                </div>
+            </section>
+            
+            <div class="copyright-bar">
+                <div class="language-switcher" aria-label="Language switcher">
+                    <button type="button" class="language-toggle" data-lang-target="id">ID</button>
+                    <button type="button" class="language-toggle" data-lang-target="en">EN</button>
+                </div>
+                <p data-i18n-id="© 2026 Vera Creation - Dibuat dengan cinta." data-i18n-en="© 2026 Vera Creation - Built with care.">© 2026 Vera Creation - Dibuat dengan cinta.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <div id="pageTransitionOverlay" class="page-transition-overlay" aria-hidden="true"></div>
+
+    <!-- Floating Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Link JS -->
+    <script src="{{ url_for('static', filename='i18n.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
