@@ -86,8 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let isThemeCoolingDown = false;
 
     const logoImg = document.querySelector('.coto-logo');
-    const DARK_LOGO = '/static/Logo%20mode%20gelap.PNG';
-    const LIGHT_LOGO = '/static/Logo%20mode%20terang.PNG';
+    const DARK_LOGO = '/static/Logo%20mode%20gelap.png';
+    const LIGHT_LOGO = '/static/Logo%20mode%20terang.png';
 
     function getInitialTheme() {
         const saved = localStorage.getItem(THEME_KEY);
