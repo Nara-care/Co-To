@@ -3,7 +3,8 @@
 CO-TO is a local Flask utility that converts document files into clean Markdown for AI-ready context.
 
 Live Demo:
-https://nracare.pythonanywhere.com
+> https://nracare.pythonanywhere.com
+This site will be disabled on Friday 03 July 2026
 
 ## Features
 
